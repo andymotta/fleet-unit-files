@@ -1,0 +1,6 @@
+[Unit]
+Description=Timer for %p service
+[Timer]
+OnCalendar=weekly
+[X-Fleet]
+MachineOf=%p.service

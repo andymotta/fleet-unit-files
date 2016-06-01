@@ -1,0 +1,8 @@
+[Unit]
+Description=Reset failed units on CoreOS Hosts
+
+[Service]
+ExecStart=/bin/bash -c "sudo systemctl reset-failed"
+
+[X-Fleet]
+Global=true

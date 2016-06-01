@@ -1,0 +1,20 @@
+[Unit]
+Description=%p
+After=docker.service etcd2.service
+Requires=docker.service etcd2.service
+
+
+[Service]
+EnvironmentFile=/etc/environment
+TimeoutStartSec=0
+
+# build image if theres none
+ExecStartPre=/bin/sh -c "/usr/bin/docker images | grep %p || /usr/bin/docker build -t %p github.com/psi-4ward/%p.git"
+
+# run or start the container
+ExecStart=/bin/sh -c "/usr/bin/docker ps -a | grep %p && /usr/bin/docker start -a %p || /usr/bin/docker run --rm --name=%p -p 0.0.0.0:8000:8000 -e "ETCD_HOST=${COREOS_PRIVATE_IPV4}" -e "ETCD_PORT=2379" %p"
+
+ExecStop=/usr/bin/docker stop %p
+
+[X-Fleet]
+MachineMetadata=etcd=master

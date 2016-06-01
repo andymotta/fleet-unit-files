@@ -1,0 +1,7 @@
+[Unit]
+Description=Timer for %p service
+Requires=docker.service
+[Timer]
+OnCalendar=daily
+[X-Fleet]
+MachineOf=%p.service
